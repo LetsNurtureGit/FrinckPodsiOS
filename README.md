@@ -35,7 +35,7 @@ $ pod install
 
 
 ### Pod Import
-To import FrinckPod, you need to mention it with import tag as well as you will also need to import CoreLocation in your class.
+To import FrinckPod, you need to mention it with import tag as well as you will also need to import CoreLocation library in your class.
 
 <pre>
 import FrinckPod
@@ -46,9 +46,9 @@ import CoreLocation
 To use functions, it is mandatory to define LNBeaconDataManagerDelegate with UIViewController.
 <pre>
 class ViewController: UIViewController, LNBeaconDataManagerDelegate {
-..
-..
-..
+    ..
+    ..
+    ..
 }
 </pre>
 
@@ -74,8 +74,8 @@ override func viewDidLoad() {
 
     beacondata.delegateManager = self
     let userData = ["client_id" : "101",
-                            "first_name" : "Tim",
-                            "last_name" : "Cook"]
+                    "first_name" : "Tim",
+                    "last_name" : "Cook"]
                             
     beacondata.passUserData(userData: userData)
     beaconManager.foundBeacons()
@@ -104,6 +104,7 @@ beacondata.didAnalysisClick(param: data as! [String : [String : String]] )
 ### Delegate Calls
 Now we'll add the the delegate methods for beaconManager, and get them to log some output.
 
+<pre>
 func didRangeBeacons(beacons: [CLBeacon], in_region: CLBeaconRegion) {
     print("Ranging Beacon \(beacons)")
 }
@@ -124,6 +125,7 @@ func didChangeAuthorizationStatus(monitor: LNBeaconManager, status: CLAuthorizat
             print("default")
     }
 }
+</pre>
 
 ## Author
 
