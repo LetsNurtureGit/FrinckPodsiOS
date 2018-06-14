@@ -22,7 +22,7 @@ To integrate the FrinkPod SDK into your Xcode project using CocoaPods, specify i
 ```ruby
 platform :ios, '8.0'
 use_frameworks!
-    
+
 pod 'FrinckPod'
 ```
 
@@ -35,32 +35,25 @@ $ pod install
 
 
 ### Pod Import
-To import FrinckPod, you need to define it as follows:
+To import FrinckPod, you need to mention it with import tag as well as you will also need to import CoreLocation in your class.
 
 <pre>
 import FrinckPod
+import CoreLocation
 </pre>
 
-### Assign LNBeaconManagerDelegate to ViewController
-To use functions, it is mandatory to define LNBeaconManagerDelegate with UIViewController.
+### Assign LNBeaconDataManagerDelegate to ViewController
+To use functions, it is mandatory to define LNBeaconDataManagerDelegate with UIViewController.
 <pre>
-class ViewController: UIViewController, LNBeaconManagerDelegate {
-    ..
-    ..
-    ..
+class ViewController: UIViewController, LNBeaconDataManagerDelegate {
+..
+..
+..
 }
 </pre>
 
 ### Get Shared Instance of LNBeaconDataManager and LNBeaconManager
-BeaconData returns detected beacons so it is required to define it as follows:
-<pre>var arrBeacons = [BeaconData]()</pre>
-
-Take shared instance of LNBeaconDataManager to use its methods and define as follow:
-<pre>let beaconManager = LNBeaconDataManager.sharedInstance</pre>
-
-Take shared instance of LNBeaconManager which is used to pass data of logged in user and define it as follows:
-<pre>let beacondata = LNBeaconManager.sharedInstance</pre>
-
+To use functionality of Beacons, you need to take shared instance of LNBeaconDataManager and LNBeaconManager. Apart from that, you will have to declare array which returns list of beacons.
 <pre>
 var arrBeacons = [BeaconData]()
 let beaconManager = LNBeaconDataManager.sharedInstance
@@ -73,27 +66,25 @@ let userData = ["client_id" : "101", "first_name" : "Tim", "last_name" : "Cook"]
 beacondata.passUserData(userData: userData)
 </pre>
 
-### Mention delegate to self from ViewDidLoad()
-Define delegate to self as follows:
-<pre>beacondata.delegateManager = self</pre>
-
+### Mention required methods in ViewDidLoad()
+In ViewDidLoad method, you will have to mention delegate to self and required methods as mentioned below:
 <pre>
 override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     beacondata.delegateManager = self
     let userData = ["client_id" : "101",
                             "first_name" : "Tim",
                             "last_name" : "Cook"]
+                            
     beacondata.passUserData(userData: userData)
-    
     beaconManager.foundBeacons()
     beaconManager.startTimer()
 }
 </pre>
 
 ### Add didReceiveBeaconData delegate method
-This is the main implemented method in which gives all nearby beacons with its data. Implement this mehtod as mentioned below and get your reqired data:
+This is the main implemented method in which all nearby beacons will be received. Implement this mehtod as mentioned below and get your reqired data:
 <pre>
 func didReceiveBeaconData(data: AnyObject?)  {
     arrBeacons = data as! [BeaconData]
@@ -110,6 +101,29 @@ let data = ["data": ["beacon_id":obj.id, "link":obj.link, "type":"2"]]  // type 
 beacondata.didAnalysisClick(param: data as! [String : [String : String]] )
 </pre>
 
+### Delegate Calls
+Now we'll add the the delegate methods for beaconManager, and get them to log some output.
+
+func didRangeBeacons(beacons: [CLBeacon], in_region: CLBeaconRegion) {
+    print("Ranging Beacon \(beacons)")
+}
+
+func didEnterRegion(monitor: LNBeaconManager, region: CLRegion) {
+    print("Enter Region \(region)")
+}
+
+func didExitRegion(_ monitor: LNBeaconManager, region: CLRegion) {
+    print("Exit Region \(region)")
+}
+
+func didChangeAuthorizationStatus(monitor: LNBeaconManager, status: CLAuthorizationStatus) {
+    switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            beacondata.startToUpdateLocation()
+        default:
+            print("default")
+    }
+}
 
 ## Author
 
@@ -118,3 +132,4 @@ LetsNurtureGit, android.letsnurture@gmail.com
 ## License
 
 FrinckPod is available under the MIT license. See the LICENSE file for more info.
+
