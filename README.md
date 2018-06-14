@@ -7,7 +7,7 @@
 
 
 ## Overview
-FrinckPod SDK is a wrapper library to detect beacons nearby you and present detailed information about beacons properties. It detects beacons near you and provide information like UUID, Major, Minor, Store/Mall Image/Video, Title and Description of store/mall as well as redirection url. You can analyse detected uses on the Admin Panel.
+FrinckPod SDK is a wrapper library to detect beacons nearby you and present detailed information about beacons properties. It detects beacons near you and provide information like UUID, Major, Minor, Store/Mall Image/Video, Title and Description of store/mall as well as redirection url. You can get every analysed data on the Admin Panel.
 
 ## Installing the iOS SDK
 To use the FrinkPod SDK in your project, the minimum deployment target must be iOS 8.0
